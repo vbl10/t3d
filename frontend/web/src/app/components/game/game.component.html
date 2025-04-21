@@ -1,0 +1,39 @@
+<div
+    style="
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+        display: flex;
+        background-color: black;
+    "
+>
+    <div style="position: absolute; z-index: 1">
+        <div
+            #rendererContainer
+            style="
+                width: 100vw;
+                height: 100vh;
+                display: block;
+                overflow: hidden;
+            "
+        ></div>
+    </div>
+    <div style="position: absolute; z-index: 2; color: white">
+        <p style="font-size: 24pt;">Pontuação: {{ score }}</p>
+        <p style="font-size: 14pt;">Nível: {{ rowsCleared }}</p>
+    </div>
+    <div
+        class="popup"
+        [ngStyle]="{
+            display: paused ? 'flex' : 'none'
+        }"
+    >
+        <h2 style="color: rgba(255, 255, 255, 0.936); font-size: 24pt">
+            Pausa
+        </h2>
+        <button (click)="pause()">Continuar</button>
+        <button (click)="reset(true)">Recomeçar</button>
+        <button>Configurações</button>
+        <button>Sair</button>
+    </div>
+</div>

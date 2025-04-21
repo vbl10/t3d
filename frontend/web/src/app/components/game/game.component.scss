@@ -1,0 +1,33 @@
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    //letter-spacing: 5px;
+}
+.popup {
+    z-index: 2;
+    margin: auto; 
+    min-width: 300px; 
+    height: fit-content; 
+    background: linear-gradient(90deg, rgba(38, 0, 71, 0.7), rgba(71, 0, 33, 0.5));
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
+}
+button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    text-align: left;
+    font-size: 16pt;
+    padding: 10px 20px;
+    border-radius: 100px;
+    transition: all 0.125s ease;
+    letter-spacing: 2px;
+    font-weight: lighter;
+}
+button:hover {
+    background-color: rgba(255, 255, 255, 0.071);
+    cursor: pointer;
+}
