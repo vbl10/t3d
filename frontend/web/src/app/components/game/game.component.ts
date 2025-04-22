@@ -102,6 +102,7 @@ export class GameComponent implements OnInit, OnDestroy {
         this.rendererContainer.nativeElement.appendChild(
             this.renderer.domElement
         );
+        this.renderer.shadowMap.enabled = true;
 
         this.scene.add(this.playField);
         
@@ -109,12 +110,16 @@ export class GameComponent implements OnInit, OnDestroy {
         this.playField.add(this.tetromino);
 
         // Luz direcional
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(0.5, 0.7, 1);
-        this.scene.add(light);
+        const light1 = new THREE.DirectionalLight(0xffffff, 1);
+        light1.position.set(1, 1, 1);
+        light1.castShadow = true;
+        this.scene.add(light1);
+        const light2 = new THREE.DirectionalLight(0xffffff, 1);
+        light2.position.set(1, 1, 1);
+        this.scene.add(light2);
 
         // Luz ambiente
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         this.scene.add(ambientLight);
 
         this.reset();
