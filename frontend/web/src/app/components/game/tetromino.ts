@@ -1,8 +1,9 @@
 import * as THREE from 'three';
+import { VoxelGeometry } from './voxel-geometry';
 
 export class Tetromino extends THREE.Mesh {
     
-    private cubeMaterial = new THREE.MeshPhongMaterial();
+    private cubeMaterial = new THREE.MeshPhongMaterial({ shininess: 15 });
     private cubes: THREE.Mesh[] = [];
     private shapeIdx = 0;
     public logicCore = new TetrominoLogicCore();
@@ -12,12 +13,13 @@ export class Tetromino extends THREE.Mesh {
     ) {
         super();
 
-        const boxGeometry = new THREE.BoxGeometry(0.95, 0.95, 0.95);
+        const boxGeometry = new VoxelGeometry(new THREE.Vector3(1, 1, 1), 0.05);
 
         for (let i = 0; i < 4; i++) {
             this.cubes.push(
                 new THREE.Mesh(boxGeometry, this.cubeMaterial)
             );
+            this.cubes[i].castShadow = true;
             this.add(this.cubes[i]);
         }
         this.setShape(this.shapeIdx);
@@ -42,12 +44,13 @@ export class Tetromino extends THREE.Mesh {
             cube.position.z *= -1;
         }
         this.cubeMaterial.color = tetrominos[shapeIdx].color;
+        this.cubeMaterial.specular = tetrominos[shapeIdx].color;
     }
 
     updateVisualPosition() {
-        this.position.x = this.logicCore.position.x + this.playFieldLogicalOriginVisualOffset.x + 0.5;
-        this.position.y = this.logicCore.position.y + this.playFieldLogicalOriginVisualOffset.y + 0.5;
-        this.position.z = -this.logicCore.position.z + this.playFieldLogicalOriginVisualOffset.z - 0.5;
+        this.position.x = this.logicCore.position.x + this.playFieldLogicalOriginVisualOffset.x;// + 0.5;
+        this.position.y = this.logicCore.position.y + this.playFieldLogicalOriginVisualOffset.y;// + 0.5;
+        this.position.z = -this.logicCore.position.z + this.playFieldLogicalOriginVisualOffset.z;// - 0.5;
     }
 }
 

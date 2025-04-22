@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 import { InwardGridBasket } from './inward-grid-box';
 import { Tetromino, TetrominoLogicCore } from './tetromino';
+import { VoxelGeometry } from './voxel-geometry';
 
 export class PlayField extends THREE.Mesh {
     
-    private voxelMaterial = new THREE.MeshPhongMaterial({ color: 0xa0a0a0 });
-    private voxelGeometry = new THREE.BoxGeometry(0.95, 0.95, 0.95);
+    private voxelMaterial = new THREE.MeshPhongMaterial({ color: 0xa0a0a0, specular: 0xa0a0a0, shininess: 30 });
+    private voxelGeometry = new VoxelGeometry(new THREE.Vector3(1, 1, 1), 0.05);
     
     //private debugGeometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
     //private debugMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
@@ -26,6 +27,8 @@ export class PlayField extends THREE.Mesh {
             this.voxelStates.push(false); 
             
             const voxelMesh = new THREE.Mesh(this.voxelGeometry, this.voxelMaterial);
+            voxelMesh.castShadow = true;
+            voxelMesh.receiveShadow = true;
             voxelMesh.position.copy(this.worldToVisualPos(this.voxelIdxToVec(i)));
             this.voxelMeshes.push(voxelMesh);
             
@@ -132,9 +135,9 @@ export class PlayField extends THREE.Mesh {
 
     private worldToVisualPos(worldPos: THREE.Vector3): THREE.Vector3 {
         return worldPos.add(new THREE.Vector3(
-            -this.dim.x / 2 + 0.5, 
-            -this.dim.y / 2 + 0.5, 
-            -this.dim.z / 2 + 0.5
+            -this.dim.x / 2,// + 0.5, 
+            -this.dim.y / 2,// + 0.5, 
+            -this.dim.z / 2,// + 0.5
         ))
         .multiply(new THREE.Vector3(
             1, 1, -1
