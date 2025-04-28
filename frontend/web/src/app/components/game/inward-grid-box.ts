@@ -31,29 +31,18 @@ export class InwardGridBasket extends THREE.Mesh
 
                 void main() {
                     vec2 a = vUv * vDim;
-                    vec2 b = a - vec2(floor(a.x), floor(a.y));
+                    vec2 b = a - floor(a);
+                    vec2 c = min(b, 1. - b);
 
-                    if (b.x < uThickness || b.x > (1.0 - uThickness) || b.y < uThickness || b.y > (1.0 - uThickness)) {
-                        float alphaX = (uThickness - (b.x > 0.5 ? (1.0 - b.x) : b.x)) / uThickness;
-                        alphaX = 1.0 * alphaX + 0.35 * (1.0 - alphaX);
-                        
-                        float alphaY = (uThickness - (b.y > 0.5 ? (1.0 - b.y) : b.y)) / uThickness;
-                        alphaY = 1.0 * alphaY + 0.35 * (1.0 - alphaY);
+                    gl_FragColor = vColor * min(3., (abs(0.01 / c.x) + abs(0.01 / c.y)) + 0.01);
+                    
+                    for (int i = 0; i < 4; i++) {
+                        int blockX = blocks[i * 2];
+                        int blockY = blocks[i * 2 + 1];
 
-                        float alpha = max(alphaX, alphaY);
-
-                        gl_FragColor = vColor * alpha + vec4(0.0, 0.0, 0.0, 1.0) * (1.0 - alpha);
-                    }
-                    else {
-                        gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
-                        for (int i = 0; i < 4; i++) {
-                            int blockX = blocks[i * 2];
-                            int blockY = blocks[i * 2 + 1];
-
-                            if (int(a.x) == blockX && int(a.y) == blockY) {
-                                gl_FragColor = vec4(0.5, 1.0, 0.0, 1.0);
-                                break;
-                            }
+                        if (int(a.x) == blockX && int(a.y) == blockY) {
+                            gl_FragColor = vec4(0.5, 1.0, 0.0, 1.0);
+                            break;
                         }
                     }
                 }
